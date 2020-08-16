@@ -75,7 +75,7 @@ client.on('message', message => {
     } else if (msgnow == "?" || msgnow == "help") {
 	    msglow = "";
 	    for (const [key,value] of Object.entries(CommandList)) {
-		    msglow = msglow.concat(`${key}\t-->${value}\n`)
+		    msglow = msglow.concat(`${key} --> ${value}\n`)
 	    }
 	    const HelpEmbed = new Discord.MessageEmbed()
 		.setColor('#ffff00')
