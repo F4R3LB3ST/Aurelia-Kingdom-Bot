@@ -5,6 +5,11 @@ const prefix = process.env.prefix
 const fs = require('fs');
 const place = require('./place.json')
 const ProfilePicture = 'https://cdn.discordapp.com/icons/699949542082215946/fa69e67567fe9f6276c27369d4f272e5.png?size=128'
+const CommandList = {
+	"help":"Command list",
+	"place":"Place list",
+	"monster":"Not available"
+}
 
 function sendEmbedPlace(PlaceName,LinkTrello,EmbedThumbnail,message) {
   const Embed = new Discord.MessageEmbed()
@@ -18,18 +23,6 @@ function sendEmbedPlace(PlaceName,LinkTrello,EmbedThumbnail,message) {
 
 message.channel.send(Embed);
 }
-
-const HelpEmbed = new Discord.MessageEmbed()
-	.setColor('#ffff00')
-	.setTitle('Aurelia Kingdom Bot')
-	.setAuthor('Aurelia Kingdom Bot', ProfilePicture, 'https://discord.gg/ffjNRpm')
-        .addFields(
-		{ name: 'Command List', value: 'Aurelia Kingdom Bot Command List' },
-		{ name: '\u200B', value: '\u200B' },
-	        { name: 'Places', value: '**auk-place**/n ```Usage: auk-place, and type the places name```/n **auk-place list**/n ```To see places list```', inline: true },
-	)
-	.setTimestamp()
-	.setFooter('Aurelia Kingdom Bot', ProfilePicture);
 		
 client.on('ready', () => {
   client.user.setAvatar(ProfilePicture).catch(err => console.log(err));
@@ -71,7 +64,7 @@ client.on('message', message => {
 			if (place[msglow] == undefined) {
 				if (msglow == "auk-place") {
 				} else {
-					message.channel.send("Error : Place not found\nTry to use auk-place list instead")
+					message.channel.send('Error : Place not found\nTry to use "auk-place list" instead')
 					collectMessagePlace.stop();	
 				}
 			} else {
@@ -80,6 +73,18 @@ client.on('message', message => {
 		})
 	    }
     } else if (msgnow == "?" || msgnow == "help") {
+	    msglow = "";
+	    for (const [key,value] of Object.entries(CommandList)) {
+		    msglow = msglow.concat(`${key}\t-->${value}\n`)
+	    }
+	    const HelpEmbed = new Discord.MessageEmbed()
+		.setColor('#ffff00')
+		.setTitle('Aurelia Kingdom Bot')
+        	.addFields(
+	        { name: 'Command List', value: msglow, inline: false },
+		)
+		.setTimestamp()
+		.setFooter('Aurelia Kingdom Bot', ProfilePicture);
 	       message.channel.send(HelpEmbed)
     } else {
 		message.channel.send("oops, use auk-?")
