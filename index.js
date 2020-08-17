@@ -26,7 +26,13 @@ message.channel.send(Embed);
 		
 client.on('ready', () => {
   client.user.setAvatar(ProfilePicture).catch(err => console.log(err));
-  client.user.setStatus('available', "auk-?");
+  client.user.setPresence({
+        game: {
+            name: 'auk-?',
+            type: "STREAMING",
+            url: "https://trello.com/b/TxnkxwJ0/aurelia-kingdom"
+        }
+    });
   console.log('I am ready!');
 });
 
