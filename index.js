@@ -26,12 +26,7 @@ message.channel.send(Embed);
 		
 client.on('ready', () => {
   client.user.setAvatar(ProfilePicture).catch(err => console.log(err));
-  client.user.setStatus('online', "auk-?")
-  client.user.setPresence({
-        game: {
-            name: 'auk-?',
-        }
-    });
+  client.user.setStatus('available', "auk-?");
   console.log('I am ready!');
 });
 
