@@ -11,7 +11,7 @@ const CommandList = {
 	"monster":"Not available"
 }
 
-function sendEmbed(Name,LinkTrello,EmbedThumbnail,message) {
+function sendEmbedPlace(Name,LinkTrello,EmbedThumbnail,message,msglow) {
   const Embed = new Discord.MessageEmbed()
 	.setColor('#ffff00')
 	.setTitle(Name)
@@ -21,7 +21,24 @@ function sendEmbed(Name,LinkTrello,EmbedThumbnail,message) {
 	.setTimestamp()
 	.setFooter('Aurelia Kingdom Bot', ProfilePicture);
 
-message.channel.send(Embed);
+	if (Array.isArray(place[msglow].trellopic)) {
+		message.channel.send(Embed).then(sentEmbed => {
+			sentEmbed.react(":fast_forward:")
+    			sentEmbed.react(":rewind:")
+			const filterPlace = (reaction, user) => {
+			return [':fast_forward:',':rewind:'].includes(reaction.emoji.name) && user.id === message.author.id;
+			};
+			sentEmbed.awaitReactions(filterPlace, { max: 1, time: 60000, errors: ['time'] })
+			.then(collected => {
+			const reaction = collected.first();
+			if (reaction.emoji.name === ':fast_foward:') {
+				message.reply('you reacted with a thumbs up.');
+			} else {
+				message.reply('you reacted with a thumbs down.');
+			}
+		})
+	})
+	} else message.channel.send(Embed);
 }
 
 async function waitReaction(Embed) {
@@ -66,26 +83,7 @@ client.on('message', message => {
 					    message.channel.send('Error : Place not found\nTry to use "auk-place list" instead')
 					    collectMessagePlace.stop();	
 				}
-			    } else {
-				    if (Array.isArray(place[msglow].trellopic)) {
-				    	sendEmbed(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message).then(sentEmbed => {
-    						sentEmbed.react(":fast_forward:")
-    						sentEmbed.react(":rewind:")
-						const filter = (reaction, user) => {
-						return [':fast_forward:',':rewind:'].includes(reaction.emoji.name) && user.id === message.author.id;
-						};
-						sentEmbed.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-						.then(collected => {
-							const reaction = collected.first();
-							if (reaction.emoji.name === ':fast_foward:') {
-							message.reply('you reacted with a thumbs up.');
-							} else {
-							message.reply('you reacted with a thumbs down.');
-							}
-						})
-					})
-				    } else sendEmbed(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic,message);
-			    }
+			    } else sendEmbedPlace(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message,msglow);
 		    })
 		    break;
 	    case "place list":
