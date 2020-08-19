@@ -1,5 +1,9 @@
 {
-  "":{
-  
+  "forest soldier":{
+    "name":"Forest Soldier",
+    "trellolink":"https://trello.com/c/JEfphxWy/36-forest-soldier",
+    "trellopic":"https://trello-attachments.s3.amazonaws.com/5f063084375be04c8013241f/262x434/7fa25109f8991fdb115797fa9f0f967a/Forest_Soldier.PNG.png",
+    "level":5,
+    "minhealth":137
   }
 }
