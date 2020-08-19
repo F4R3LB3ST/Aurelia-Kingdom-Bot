@@ -11,10 +11,10 @@ const CommandList = {
 	"monster":"Not available"
 }
 
-function sendEmbedPlace(PlaceName,LinkTrello,EmbedThumbnail,message) {
+function sendEmbed(Name,LinkTrello,EmbedThumbnail,message) {
   const Embed = new Discord.MessageEmbed()
 	.setColor('#ffff00')
-	.setTitle(PlaceName)
+	.setTitle(Name)
 	.setURL(LinkTrello)
    	.setImage(EmbedThumbnail)
 	.setDescription('Some description here')
@@ -23,11 +23,15 @@ function sendEmbedPlace(PlaceName,LinkTrello,EmbedThumbnail,message) {
 
 message.channel.send(Embed);
 }
+
+async function waitReaction(Embed) {
+	
+}
 		
 client.on('ready', () => {
   client.user.setAvatar(ProfilePicture).catch(err => console.log(err));
-  client.user.setPresence({
-        game: {
+  client.user.setPresence({status:'online',
+        activity: {
             name: 'auk-?',
             type: "STREAMING",
             url: "https://trello.com/b/TxnkxwJ0/aurelia-kingdom"
@@ -63,7 +67,24 @@ client.on('message', message => {
 					    collectMessagePlace.stop();	
 				}
 			    } else {
-				    sendEmbedPlace(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic,message);
+				    if (Array.isArray(place[msglow].trellopic)) {
+				    	sendEmbed(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message).then(sentEmbed => {
+    						sentEmbed.react(":fast_forward:")
+    						sentEmbed.react(":rewind:")
+						const filter = (reaction, user) => {
+						return [':fast_forward:',':rewind:'].includes(reaction.emoji.name) && user.id === message.author.id;
+						};
+						sentEmbed.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
+						.then(collected => {
+							const reaction = collected.first();
+							if (reaction.emoji.name === ':fast_foward:') {
+							message.reply('you reacted with a thumbs up.');
+							} else {
+							message.reply('you reacted with a thumbs down.');
+							}
+						})
+					})
+				    } else sendEmbed(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic,message);
 			    }
 		    })
 		    break;
