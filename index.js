@@ -23,15 +23,15 @@ function sendEmbedPlace(Name,LinkTrello,EmbedThumbnail,message,msglow) {
 
 	if (Array.isArray(place[msglow].trellopic)) {
 		message.channel.send(Embed).then(sentEmbed => {
-			sentEmbed.react('\:fast_forward:')
-    			sentEmbed.react('\:rewind:')
+			sentEmbed.react('⏩')
+    			sentEmbed.react('⏪')
 			const filterPlace = (reaction, user) => {
-			return ['\:fast_forward:','\:rewind:'].includes(reaction.emoji.name) && user.id === message.author.id;
+			return ['⏩','⏪'].includes(reaction.emoji.name) && user.id === message.author.id;
 			};
 			sentEmbed.awaitReactions(filterPlace, { max: 1, time: 60000, errors: ['time'] })
 			.then(collected => {
 			const reaction = collected.first();
-			if (reaction.emoji.name === '\:fast_forward:') {
+			if (reaction.emoji.name === '⏩') {
 				message.reply('you reacted with a thumbs up.');
 			} else {
 				message.reply('you reacted with a thumbs down.');
