@@ -108,12 +108,12 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	if (reaction.partial) {
 		try {
 			await reaction.fetch();
+			if (reaction.message.author.bot) return;
 		} catch (error) {
 			console.log('Something went wrong when fetching the message: ', error);
 			return;
 		}
 	}
-	if (reaction.message.author.bot) return;
 	console.log('1')
 	for (const [key,value] of Object.entries(place)) {
 		console.log(value)
