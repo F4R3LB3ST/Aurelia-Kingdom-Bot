@@ -110,16 +110,21 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		// If the message this reaction belongs to was removed the fetching might result in an API error, which we need to handle
 		try {
 			await reaction.fetch();
+			if (reaction.message.author.bot) return;
 		} catch (error) {
 			console.log('Something went wrong when fetching the message: ', error);
 			// Return as `reaction.message.author` may be undefined/null
 			return;
 		}
 	}
-	// Now the message has been cached and is fully available
-	reaction.message.channel.send(`${reaction.message.author}'s message "${reaction.message.content}" gained a reaction!`);
-	// The reaction is now also fully available and the properties will be reflected accurately:
-	reaction.message.channel.send(`${reaction.count} user(s) have given the same reaction to this message!`);
+	console.log('1')
+	for (const [key,value] of Object.entries(place)) {
+		for(var i = 0; i < reaction.message.embeds.length; i++) {
+        		if(reaction.message.embeds[i].title.includes(value[0])) {
+            			reaction.message.channel.send("Detected");
+           	 		break;
+		}
+    	}
 });
 
 client.login(process.env.token);
