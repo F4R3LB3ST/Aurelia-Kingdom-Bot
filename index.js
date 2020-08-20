@@ -113,7 +113,6 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			if (reaction.message.author.bot) return;
 		} catch (error) {
 			console.log('Something went wrong when fetching the message: ', error);
-			// Return as `reaction.message.author` may be undefined/null
 			return;
 		}
 	}
@@ -125,6 +124,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
            	 		break;
 		}
     	}
+	}
 });
 
 client.login(process.env.token);
