@@ -118,7 +118,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	for (const [key,value] of Object.entries(place)) {
 		console.log(value)
 		for(var i = 0; i < reaction.message.embeds.length; i++) {
-        		if (reaction.message.embeds[i].title.includes(value[0]) || reaction.message.embeds[i].title.includes(value[0])) {
+        		if (reaction.message.embeds[i].title.includes(value.name) || reaction.message.embeds[i].title.includes(value.name)) {
             			reaction.message.channel.send("Detected");
            	 		break;
 		}
