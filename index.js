@@ -28,7 +28,7 @@ function sendEmbedPlace(Name,LinkTrello,EmbedThumbnail,message,msglow) {
 			const filterPlace = (reaction, user) => {
 			return ['⏩','⏪'].includes(reaction.emoji.name) && user.id === message.author.id;
 			};
-			sentEmbed.awaitReactions(filterPlace, { max: 10, time: 60000, errors: ['time'] })
+			sentEmbed.awaitReactions(filterPlace, {time: 60000, errors: ['time'] })
 			.then(collected => {
 			const reaction = collected.first();
 			if (reaction.emoji.name === '⏩') {
