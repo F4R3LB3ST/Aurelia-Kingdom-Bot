@@ -104,7 +104,7 @@ client.on('message', message => {
   }
 })
 
-client.on('messageReactionAdd', async (reaction, user) => {
+/*client.on('messageReactionAdd', async (reaction, user) => {
 	if (user.bot) return;
 	if (reaction.partial) {
 		try {
@@ -118,11 +118,14 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	for (const [key,value] of Object.entries(place)) {
 		for(var i = 0; i < reaction.message.embeds.length; i++) {
         		if (reaction.message.embeds[i].title.includes(value.name) || reaction.message.embeds[i].title.includes(value.name)) {
+				var embedEdit = new Discord.MessageEmbed()
+        			.setDescription(`${msg.createdTimestamp - message.createdTimestamp}`)
+    				msg.edit(embed) 
             			reaction.message.channel.send("Detected");
            	 		break;
 		}
 	}
 }
-});
+});*/
 
 client.login(process.env.token);
