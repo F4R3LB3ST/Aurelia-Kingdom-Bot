@@ -105,6 +105,7 @@ client.on('message', message => {
 })
 
 client.on('messageReactionAdd', async (reaction, user) => {
+	if (user.bot) return;
 	if (reaction.partial) {
 		try {
 			await reaction.fetch();
@@ -113,10 +114,8 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			return;
 		}
 	}
-	if (reaction.message.author.bot) return;
 	console.log('1')
 	for (const [key,value] of Object.entries(place)) {
-		console.log(value)
 		for(var i = 0; i < reaction.message.embeds.length; i++) {
         		if (reaction.message.embeds[i].title.includes(value.name) || reaction.message.embeds[i].title.includes(value.name)) {
             			reaction.message.channel.send("Detected");
