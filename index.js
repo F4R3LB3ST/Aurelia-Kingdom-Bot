@@ -22,10 +22,10 @@ function sendEmbedPlace(Name,LinkTrello,EmbedThumbnail,message,msglow) {
 	.setFooter('Aurelia Kingdom Bot', ProfilePicture);
 
 	if (Array.isArray(place[msglow].trellopic)) {
-		message.channel.send(Embed).then(sentEmbed => {
+		message.channel.send(Embed)/*.then(sentEmbed => {
 			sentEmbed.react('⏪')
 			sentEmbed.react('⏩')
-	})
+	})*/
 	} else message.channel.send(Embed);
 }
 
