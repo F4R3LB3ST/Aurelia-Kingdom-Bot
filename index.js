@@ -63,7 +63,7 @@ client.on('message', message => {
 	    case "place":
 		    message.channel.send("the place name ?")
 		    const collectMessagePlace = new Discord.MessageCollector(message.channel,response => response.author.id == message.author.id, {time:10000});
-		    collectMessagePlace.once('collect', response => {
+		    collectMessagePlace.on('collect', response => {
 			    msglow = response.content.toLowerCase();
 			    if (place[msglow] == undefined) {
 				    if (msglow == "auk-place") {
@@ -71,9 +71,15 @@ client.on('message', message => {
 					    message.channel.send('Error : Place not found\nTry to use "auk-place list" instead')
 					    collectMessagePlace.stop();	
 					}
-			    } else sendEmbedPlace(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message,msglow);
+			    } else {
+					try {
+						sendEmbedPlace(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message,msglow);
+					} catch (error) {
+						console.log("Gagal mengirim embeds");
+					}
+				} 
 			})
-			collectMessagePlace.once('end', response => {
+			collectMessagePlace.on('end', response => {
 				if (response == undefined) message.channel.send("Error : Telah mencapai batas waktu\nCoba gunakan \"auk-place list\"");
 			})
 		    break;
