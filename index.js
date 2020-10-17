@@ -70,9 +70,12 @@ client.on('message', message => {
 				    } else {
 					    message.channel.send('Error : Place not found\nTry to use "auk-place list" instead')
 					    collectMessagePlace.stop();	
-				}
+					}
 			    } else sendEmbedPlace(place[msglow].name,place[msglow].trellolink,place[msglow].trellopic[0],message,msglow);
-		    })
+			})
+			collectMessagePlace.once('end', response => {
+				if (response == undefined) message.channel.send("Error : Telah mencapai batas waktu\nCoba gunakan \"auk-place list\"");
+			})
 		    break;
 	    case "place list":
 		    msglow = "";
@@ -104,7 +107,7 @@ client.on('message', message => {
   }
 })
 
-/*client.on('messageReactionAdd', async (reaction, user) => {
+client.on('messageReactionAdd', async (reaction, user) => {
 	if (user.bot) return;
 	if (reaction.partial) {
 		try {
@@ -126,6 +129,6 @@ client.on('message', message => {
 		}
 	}
 }
-});*/
+});
 
 client.login(process.env.token);
